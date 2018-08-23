@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#44B4FF</color>
+    <color name="colorPrimaryDark">#44B4FF</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="bottomInAction">#B8B8B8</color>
+    <color name="bottomAction">#44B4FF</color>
+
+    <color name="web_navigation">#EDEDED</color>
+</resources>
