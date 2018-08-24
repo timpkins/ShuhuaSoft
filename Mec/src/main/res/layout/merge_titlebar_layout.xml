@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:paddingTop="@dimen/status_bar_height"
+    android:background="@color/other_statusbar">
+
+    <TextView
+        android:id="@+id/tvTitleLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:textColor="#FFFFFF"
+        android:drawablePadding="4dp"
+        android:drawableStart="@mipmap/title_back"
+        android:text="@string/app_name"/>
+
+    <TextView
+        android:id="@+id/tvTitleRight"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:paddingStart="8dp"
+        android:textColor="#FFFFFF"/>
+
+</RelativeLayout>

@@ -17,8 +17,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import cn.base.util.LogUtils;
-
 /**
  * Class description
  * @author ashokvarma
@@ -79,7 +77,6 @@ abstract class BottomNavigationTab extends FrameLayout {
     }
 
     public void setItemZoom(boolean itemZoom) {
-        LogUtils.e("TAG", "setItemZoom = " + itemZoom);
         isItemZoom = itemZoom;
     }
 

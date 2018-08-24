@@ -2,6 +2,8 @@ package cn.base.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
@@ -29,14 +31,10 @@ public abstract class BaseTabActivity extends AppCompatActivity implements OnTab
     private List<BottomNavigationItem> items;
     private int lastSelectedPosition = 0;
     private boolean isItemZoom = false;
-    BaseTabFragment fragment1;
-    BaseTabFragment fragment2;
-    BaseTabFragment fragment3;
-    BaseTabFragment fragment4;
-    BaseTabFragment fragment5;
-    BaseTabFragment fragment6;
-
+    private List<BaseTabFragment> tabFragments;
     @Nullable TextBadgeItem numberBadgeItem;
+    private FragmentTransaction transaction;
+    private Fragment mFragment;//当前显示的Fragment
 
     @Nullable
     ShapeBadgeItem shapeBadgeItem;
@@ -44,14 +42,8 @@ public abstract class BaseTabActivity extends AppCompatActivity implements OnTab
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_base_tab);
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
-        fragment1 = BaseTabFragment.newInstance(getString(R.string.para1));
-        fragment2 = BaseTabFragment.newInstance(getString(R.string.para2));
-        fragment3 = BaseTabFragment.newInstance(getString(R.string.para3));
-        fragment4 = BaseTabFragment.newInstance(getString(R.string.para4));
-        fragment5 = BaseTabFragment.newInstance(getString(R.string.para5));
-        fragment6 = BaseTabFragment.newInstance(getString(R.string.para6));
         bottomNavigationBar.setTabSelectedListener(this);
     }
 
@@ -72,8 +64,12 @@ public abstract class BaseTabActivity extends AppCompatActivity implements OnTab
         this.hideBadge = hideBadge;
     }
 
-    public void setItems(List<BottomNavigationItem> items) {
+    public void setItems(List<BottomNavigationItem> items, List<BaseTabFragment> tabFragments) {
+        if (items.size() != tabFragments.size()) {
+            throw new RuntimeException("item's size is no match Fragment's size");
+        }
         this.items = items;
+        this.tabFragments = tabFragments;
     }
 
     public void setItemZoom(boolean itemZoom) {
@@ -111,6 +107,27 @@ public abstract class BaseTabActivity extends AppCompatActivity implements OnTab
             bottomNavigationBar.setFirstSelectedPosition(lastSelectedPosition > items.size() ? items.size() : lastSelectedPosition);
             bottomNavigationBar.setItemZoom(isItemZoom);
             bottomNavigationBar.initialise();
+        }
+        initFragment();
+        switchFragment(0);
+    }
+
+    private void initFragment() {
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.home_activity_frag_container, tabFragments.get(0)).commit();
+        mFragment = tabFragments.get(0);
+    }
+
+    protected void switchFragment(int postion) {
+        Fragment fragment = tabFragments.get(postion);
+        if ( mFragment == null || mFragment != fragment) {
+            if (!fragment.isAdded()) {
+                getSupportFragmentManager().beginTransaction().hide(mFragment)
+                        .add(R.id.home_activity_frag_container, fragment).commit();
+            } else {
+                getSupportFragmentManager().beginTransaction().hide(mFragment).show(fragment).commit();
+            }
+            mFragment = fragment;
         }
     }
 

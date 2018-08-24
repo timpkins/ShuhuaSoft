@@ -2,10 +2,8 @@
 <resources>
     <color name="colorPrimary">#44B4FF</color>
     <color name="colorPrimaryDark">#44B4FF</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#44B4FF</color>
 
-    <color name="bottomInAction">#B8B8B8</color>
-    <color name="bottomAction">#44B4FF</color>
-
-    <color name="web_navigation">#EDEDED</color>
+    <color name="web_statusbar">#EDEDED</color>
+    <color name="other_statusbar">#44B4FF</color>
 </resources>

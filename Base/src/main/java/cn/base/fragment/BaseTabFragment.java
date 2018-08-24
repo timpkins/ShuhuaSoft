@@ -7,8 +7,7 @@ import android.support.v4.app.Fragment;
  * @author timpkins
  */
 public class BaseTabFragment extends Fragment {
-    private static final String KEY_MESSAGE = "kmessage";
-
+    protected static final String KEY_MESSAGE = "kmessage";
 
     public static BaseTabFragment newInstance(String message){
         BaseTabFragment baseTabFragment = new BaseTabFragment();
