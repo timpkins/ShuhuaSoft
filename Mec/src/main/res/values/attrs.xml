@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ItemPromptView">
+        <attr name="itemName" format="string|reference"/>
+        <attr name="nameSize" format="dimension|reference"/>
+        <attr name="nameColor" format="dimension|reference"/>
+        <attr name="itemPrompt" format="string|reference"/>
+        <attr name="promptSize" format="dimension|reference"/>
+        <attr name="promptColor" format="dimension|reference"/>
+    </declare-styleable>
+</resources>

@@ -30,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return findViewById(idRes);
     }
 
-    protected void startActivity(Class<AppCompatActivity> clazz){
+    protected <T extends AppCompatActivity> void startActivity(Class<T> clazz) {
         startActivity(new Intent(this, clazz));
     }
 }

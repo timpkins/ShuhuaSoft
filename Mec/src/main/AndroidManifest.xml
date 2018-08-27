@@ -19,7 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.mec.activity.PersonInfoActivity" />
+        <activity android:name="com.mec.activity.MineInfoActivity" />
+        <activity android:name="com.mec.activity.MineSettingsActivity" />
+        <activity android:name="com.mec.activity.MineSafeActivity" />
+        <activity android:name="com.mec.activity.UserLoginActivity" />
+        <activity android:name="com.mec.activity.UserRegitActivity" />
     </application>
 
 </manifest>

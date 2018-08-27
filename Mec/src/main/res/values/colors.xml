@@ -6,4 +6,7 @@
 
     <color name="web_statusbar">#EDEDED</color>
     <color name="other_statusbar">#44B4FF</color>
+
+    <color name="textColor">#333333</color>
+    <color name="tipsColor">#999999</color>
 </resources>

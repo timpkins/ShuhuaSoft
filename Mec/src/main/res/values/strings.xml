@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">店小二</string>
 
-    <string name="person_title">个人资料</string>
+    <string name="mine_login">注册/登录</string>
+    <string name="mine_balance">余额：¥99999</string>
+    <string name="mine_order">我的订单</string>
+    <string name="mine_bill">账单明细</string>
+    <string name="mine_person">个人资料</string>
+    <string name="mine_safe">安全管理</string>
+    <string name="mine_settings">设置</string>
+
+    <string name="info_title">个人资料</string>
+
+    <string name="safe_title">安全管理</string>
+
+
+    <string name="settings_title">设置</string>
+    <string name="settings_cache">清理缓存</string>
+    <string name="settings_feedback">反馈建议</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_logout">安全退出</string>
+    <string name="toRegist">还没有帐号，去注册</string>
 </resources>
