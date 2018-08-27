@@ -10,9 +10,9 @@
     <string name="mine_settings">设置</string>
 
     <string name="info_title">个人资料</string>
+    <string name="info_avatar">头像</string>
 
     <string name="safe_title">安全管理</string>
-
 
     <string name="settings_title">设置</string>
     <string name="settings_cache">清理缓存</string>
@@ -20,4 +20,7 @@
     <string name="settings_about">关于</string>
     <string name="settings_logout">安全退出</string>
     <string name="toRegist">还没有帐号，去注册</string>
+
+    <string name="picker_all">全部照片</string>
+
 </resources>

@@ -24,9 +24,12 @@
         android:layout_height="match_parent"
         android:paddingEnd="16dp"
         android:gravity="center_vertical"
+        android:layout_centerInParent="true"
+        android:paddingTop="@dimen/status_bar_height"
         android:textSize="16sp"
         android:layout_centerVertical="true"
         android:paddingStart="8dp"
+        android:text="全部照片"
         android:textColor="#FFFFFF"/>
 
 </RelativeLayout>
