@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:gravity="center"
-             android:background="#EBEBEB">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#7E7E7E"
+    android:orientation="vertical"
+    android:layout_margin="1dp"
+    android:gravity="center">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@mipmap/ic_photo_camera_white"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:src="@mipmap/ic_photo_camera"
+        tools:ignore="ContentDescription" />
 
-</RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#CCCCCC"
+        android:layout_marginTop="4dp"
+        android:text="拍摄照片" />
+
+</LinearLayout>

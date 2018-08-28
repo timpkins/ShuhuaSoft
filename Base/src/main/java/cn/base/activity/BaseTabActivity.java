@@ -23,6 +23,7 @@ import cn.base.view.TextBadgeItem;
  * @author timpkins
  */
 public abstract class BaseTabActivity extends AppCompatActivity implements OnTabSelectedListener {
+    private static final String TAG = BaseTabActivity.class.getSimpleName();
     private BottomNavigationBar bottomNavigationBar;
     @Mode private int bottomMode = BottomNavigationBar.MODE_FIXED;
     @BackgroundStyle private int bottomBackgroundStyle = BottomNavigationBar.BACKGROUND_STYLE_STATIC;

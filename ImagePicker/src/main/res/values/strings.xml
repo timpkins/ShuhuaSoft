@@ -7,7 +7,7 @@
     <string name="full_image">原图</string>
     <string name="full_image_with_size">原图(%s)</string>
     <string name="all_photos">全部照片</string>
-    <string name="album_photo_number">(%d)</string>
+    <string name="album_photo_number">%d</string>
     <string name="photo_sum_max">最多只能选择%d张图片</string>
     <string name="photo_sum_indicator">%1$d/%2$d</string>
     <string name="get_album_failed">获取相册失败</string>

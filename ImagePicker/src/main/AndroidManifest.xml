@@ -5,6 +5,5 @@
 
     <application>
         <activity android:name=".activity.PhotoSelectorActivity"/>
-        <activity android:name=".activity.PhotoViewActivity"/>
     </application>
 </manifest>

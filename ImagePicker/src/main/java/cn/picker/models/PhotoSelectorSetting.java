@@ -18,12 +18,4 @@ public class PhotoSelectorSetting {
      * PhotoView宽高比例,用于判断图片高度是否超出屏幕范围
      */
     public static float SCREEN_RATIO;
-    /**
-     * 选择原图
-     */
-    public static String SELECTED_FULL_IMAGE = "is_selected_full_image";
-    /**
-     * 是否选择原图
-     */
-    public static boolean IS_SELECTED_FULL_IMAGE = false;
 }

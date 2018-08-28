@@ -15,18 +15,17 @@
         android:gravity="center_vertical"
         android:textColor="#FFFFFF"
         android:drawablePadding="4dp"
-        android:drawableStart="@mipmap/title_back"
-        android:text="@string/app_name"/>
+        android:drawableStart="@mipmap/title_back" />
 
     <TextView
-        android:id="@+id/tvTitleRight"
+        android:id="@+id/tvTitleName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingEnd="16dp"
         android:gravity="center_vertical"
         android:layout_centerInParent="true"
         android:paddingTop="@dimen/status_bar_height"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:layout_centerVertical="true"
         android:paddingStart="8dp"
         android:text="全部照片"

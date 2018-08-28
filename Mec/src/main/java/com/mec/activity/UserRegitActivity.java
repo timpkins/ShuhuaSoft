@@ -8,12 +8,10 @@ import android.widget.TextView;
 import com.mec.view.InputEditText;
 import com.shuhuasoft.R;
 
-import cn.base.activity.BaseActivity;
-
 /**
  * @author timpkins
  */
-public class UserRegitActivity extends BaseActivity implements OnClickListener, OnFocusChangeListener {
+public class UserRegitActivity extends MecTitleActivity implements OnClickListener, OnFocusChangeListener {
 
     @Override
     protected int setContentLayout() {
@@ -21,16 +19,18 @@ public class UserRegitActivity extends BaseActivity implements OnClickListener, 
     }
 
     @Override
+    protected void initTitle() {
+        super.initTitle();
+        setTitleContent(R.string.regist_title);
+    }
+
+    @Override
     protected void initViews() {
-        TextView tvTitleLeft = findView(R.id.tvTitleLeft);
-        TextView tvTitleRight = findView(R.id.tvTitleRight);
         TextView tvRegist = findView(R.id.tvRegist);
         InputEditText ietAccount = findView(R.id.ietAccount);
         ietAccount.setOnFocusChangeListener(this);
 
         tvRegist.setOnClickListener(this);
-        tvTitleLeft.setOnClickListener(this);
-        tvTitleRight.setText("注册");
     }
 
     @Override

@@ -11,22 +11,4 @@
         android:layout_height="wrap_content"
         android:background="@color/dividerColor"
         android:scaleType="centerCrop" />
-
-    <ImageView
-        android:id="@+id/iv_photo_checked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|top"
-        android:paddingBottom="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="3dp"
-        android:paddingTop="3dp"
-        android:src="@mipmap/compose_photo_preview_default" />
-
-    <ImageView
-        android:id="@+id/iv_gif_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:src="@mipmap/ic_image_gif" />
 </FrameLayout>

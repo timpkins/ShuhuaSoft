@@ -10,12 +10,10 @@ import android.widget.TextView;
 
 import com.shuhuasoft.R;
 
-import cn.base.activity.BaseActivity;
-
 /**
  * @author timpkins
  */
-public class UserLoginActivity extends BaseActivity implements OnClickListener {
+public class UserLoginActivity extends MecTitleActivity implements OnClickListener {
 
     @Override
     protected int setContentLayout() {
@@ -23,16 +21,19 @@ public class UserLoginActivity extends BaseActivity implements OnClickListener {
     }
 
     @Override
+    protected void initTitle() {
+        super.initTitle();
+        setTitleContent(R.string.login_title);
+    }
+
+    @Override
     protected void initViews() {
         TextView tvRegist = findView(R.id.tvRegist);
-        TextView tvTitleLeft = findView(R.id.tvTitleLeft);
-        TextView tvTitleRight = findView(R.id.tvTitleRight);
+
         SpannableString ssRegist = new SpannableString(getResources().getString(R.string.toRegist));
         ssRegist.setSpan(new ForegroundColorSpan(Color.parseColor("#44B4FF")), 6, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvRegist.setText(ssRegist);
         tvRegist.setOnClickListener(this);
-        tvTitleLeft.setOnClickListener(this);
-        tvTitleRight.setText("登陆");
     }
 
     @Override

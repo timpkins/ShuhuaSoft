@@ -1,6 +1,7 @@
 package cn.picker.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +16,12 @@ import java.util.List;
 
 import cn.picker.R;
 import cn.picker.bean.ImageFolderBean;
-import cn.picker.models.PhotoMessage;
 
 /**
  * Created by Fire on 2017/4/10.
  */
 
 public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.ViewHolder> implements OnClickListener {
-    private static final String TAG = "FolderListAdapter";
     private Context context;
     private List<ImageFolderBean> list;
     private OnRecyclerViewItemClickListener listener;
@@ -40,30 +39,21 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Vi
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.folder_list, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        List<String> imagePaths = list.get(position).getImagePaths();
-        for (String imagePath : imagePaths) {
-            if (PhotoMessage.isPhotoSelected(imagePath)) {
-                holder.ivPhotoFilterChecked.setVisibility(View.VISIBLE);
-                break;
-            } else {
-                holder.ivPhotoFilterChecked.setVisibility(View.GONE);
-            }
-        }
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if (list.get(position).isSelected()) {
-            holder.rootView.setBackgroundColor(context.getResources().getColor(R.color.dividerColor));
+            holder.ivPhotoFilterChecked.setVisibility(View.VISIBLE);
         } else {
-            holder.rootView.setBackgroundColor(context.getResources().getColor(R.color.textWriteColor));
+            holder.ivPhotoFilterChecked.setVisibility(View.GONE);
         }
         holder.tvAlbumName.setText(list.get(position).getFolderName());
-//        Glide.with(context).load(list.get(position).getImagePaths().get(0)).asBitmap().into(holder.ivFolderThumb);
         Glide.with(context).load(list.get(position).getImagePaths().get(0)).into(holder.ivFolderThumb);
         String string = context.getResources().getString(R.string.album_photo_number);
         String format = String.format(string, list.get(position).getImageCounts());
@@ -94,10 +84,10 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderListAdapter.Vi
         ViewHolder(View view) {
             super(view);
             rootView = view;
-            ivFolderThumb = (ImageView) view.findViewById(R.id.iv_folder_thumb);
-            tvAlbumName = (TextView) view.findViewById(R.id.tv_album_name);
-            tvAlbumPhotoNumber = (TextView) view.findViewById(R.id.tv_album_photo_number);
-            ivPhotoFilterChecked = (ImageView) view.findViewById(R.id.iv_photo_filter_checked);
+            ivFolderThumb = view.findViewById(R.id.iv_folder_thumb);
+            tvAlbumName = view.findViewById(R.id.tv_album_name);
+            tvAlbumPhotoNumber = view.findViewById(R.id.tv_album_photo_number);
+            ivPhotoFilterChecked = view.findViewById(R.id.ivCheck);
         }
     }
 }

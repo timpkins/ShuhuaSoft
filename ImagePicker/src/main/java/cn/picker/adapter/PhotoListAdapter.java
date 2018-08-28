@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
@@ -13,8 +12,6 @@ import java.util.List;
 
 import cn.picker.R;
 import cn.picker.view.SquareImageView;
-
-import static cn.picker.models.PhotoMessage.SELECTED_PHOTOS;
 
 
 /**
@@ -70,22 +67,9 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.View
             holder.rootView.setTag(position);
         } else {
             Glide.with(context).load(list.get(position)).into(holder.ivPhotoThumb);
-            if (list.get(position).toLowerCase().endsWith("gif")) {
-                holder.ivGifImage.setVisibility(View.VISIBLE);
-            } else {
-                holder.ivGifImage.setVisibility(View.GONE);
-            }
-            if (SELECTED_PHOTOS.contains(list.get(position))) {
-                holder.ivPhotoChecked.setImageResource(R.mipmap.compose_photo_preview_right);
-            } else {
-                holder.ivPhotoChecked.setImageResource(R.mipmap.compose_photo_preview_default);
-            }
-            holder.ivPhotoChecked.setOnClickListener(this);
-            holder.ivPhotoChecked.setTag(position);
             holder.rootView.setOnClickListener(this);
             holder.rootView.setTag(position);
         }
-
     }
 
 
@@ -104,15 +88,11 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder {
         private View rootView;
         private SquareImageView ivPhotoThumb;
-        private ImageView ivPhotoChecked;
-        private ImageView ivGifImage;
 
         ViewHolder(View view) {
             super(view);
             rootView = view;
-            ivPhotoThumb = (SquareImageView) view.findViewById(R.id.iv_photo_thumb);
-            ivPhotoChecked = (ImageView) view.findViewById(R.id.iv_photo_checked);
-            ivGifImage = (ImageView) view.findViewById(R.id.iv_gif_image);
+            ivPhotoThumb = view.findViewById(R.id.iv_photo_thumb);
         }
     }
 }

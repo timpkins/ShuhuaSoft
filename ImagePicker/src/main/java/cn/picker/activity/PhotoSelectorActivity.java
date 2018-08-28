@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,13 +14,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,17 +36,12 @@ import cn.picker.R;
 import cn.picker.adapter.FolderListAdapter;
 import cn.picker.adapter.PhotoListAdapter;
 import cn.picker.bean.ImageFolderBean;
-import cn.picker.models.PhotoMessage;
 import cn.picker.models.PhotoSelectorSetting;
-import cn.picker.utils.GetFileSize;
 import cn.picker.utils.ScreenUtil;
 
 import static cn.picker.models.PhotoMessage.SELECTED_PHOTOS;
 import static cn.picker.models.PhotoSelectorSetting.COLUMN_COUNT;
-import static cn.picker.models.PhotoSelectorSetting.IS_SELECTED_FULL_IMAGE;
 import static cn.picker.models.PhotoSelectorSetting.LAST_MODIFIED_LIST;
-import static cn.picker.models.PhotoSelectorSetting.MAX_PHOTO_SUM;
-import static cn.picker.models.PhotoSelectorSetting.SELECTED_FULL_IMAGE;
 
 /**
  * Created by Fire on 2017/4/8.
@@ -75,9 +67,6 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
      */
     private FolderListAdapter folderListAdapter;
     private TextView tvCancel;
-    private Button btSelectOK;
-    private Button btPreviewImage;
-    private Button btSelectFullImage;
     private TextView tvAlbumName;
     private ImageView ivAlbumArrow;
     private RecyclerView rvFolderList;
@@ -85,7 +74,7 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
     private List<String> chileList;
     private List<String> value;
     private List<String> photoFolder;
-    private ArrayList<String> photoList;
+    private ArrayList<String> photoList = new ArrayList<>();
     private RecyclerView rvPhotoList;
 
     @Override
@@ -93,27 +82,18 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_selector);
         getImages();
-        rvPhotoList = (RecyclerView) findViewById(R.id.rv_photo_list);
-        tvCancel = (TextView) findViewById(R.id.tv_select_cancel);
-        tvAlbumName = (TextView) findViewById(R.id.tv_album_name);
-        ivAlbumArrow = (ImageView) findViewById(R.id.iv_album_arrow);
-        btSelectOK = (Button) findViewById(R.id.bt_select_ok);
-        btPreviewImage = (Button) findViewById(R.id.bt_preview_image);
-        btSelectFullImage = (Button) findViewById(R.id.bt_select_full_image);
-        rvFolderList = (RecyclerView) findViewById(R.id.rv_folder_list);
+        rvPhotoList = findViewById(R.id.rv_photo_list);
+        tvCancel = findViewById(R.id.tv_select_cancel);
+        tvAlbumName = findViewById(R.id.tv_album_name);
+        ivAlbumArrow = findViewById(R.id.iv_album_arrow);
+        rvFolderList = findViewById(R.id.rv_folder_list);
         vAlpha = findViewById(R.id.v_alpha);
         tvCancel.setOnClickListener(this);
         tvAlbumName.setOnClickListener(this);
         ivAlbumArrow.setOnClickListener(this);
-        btSelectOK.setOnClickListener(this);
-        btPreviewImage.setOnClickListener(this);
-        btSelectFullImage.setOnClickListener(this);
         vAlpha.setOnClickListener(this);
         Intent intent = getIntent();
         SELECTED_PHOTOS = intent.getStringArrayListExtra(LAST_MODIFIED_LIST);
-        if (SELECTED_PHOTOS.size() == 0) {
-            IS_SELECTED_FULL_IMAGE = false;
-        }
         photoListAdapter = new PhotoListAdapter(this, photoGroupMap.get("全部照片"));
         if (COLUMN_COUNT <= 1) {
             rvPhotoList.setLayoutManager(new LinearLayoutManager(this));
@@ -129,7 +109,6 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
         folderListAdapter = new FolderListAdapter(this, photoFolders);
         folderListAdapter.setOnRecyclerViewItemClickListener(new OnFolderListClick());
         rvFolderList.setAdapter(folderListAdapter);
-        changeOKButtonStatus();
     }
 
     /**
@@ -196,25 +175,6 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
             finish();
         } else if (v == tvAlbumName) {// 选择相册
             toggleFolderList();
-        } else if (v == btSelectOK) {// 确定按钮
-            if (SELECTED_PHOTOS.size() != 0) {
-                ArrayList<String> image = new ArrayList<>();
-                image.addAll(SELECTED_PHOTOS);
-                Intent intent = new Intent();
-                intent.putExtra(LAST_MODIFIED_LIST, image);
-                intent.putExtra(SELECTED_FULL_IMAGE, PhotoSelectorSetting.IS_SELECTED_FULL_IMAGE);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        } else if (v == btPreviewImage) {// 预览照片
-            Intent intent = new Intent(this, PhotoViewActivity.class);
-            photoList = new ArrayList<>();
-            photoList.addAll(SELECTED_PHOTOS);
-            intent.putExtra("PhotoList", photoList);
-            startActivityForResult(intent, REQUEST_PREVIEW_PHOTO);
-        } else if (v == btSelectFullImage) {// 选择全图
-            PhotoSelectorSetting.IS_SELECTED_FULL_IMAGE = !PhotoSelectorSetting.IS_SELECTED_FULL_IMAGE;
-            changeOKButtonStatus();
         } else if (v == vAlpha) {// 点击相册列表外部
             toggleFolderList();
         }
@@ -246,29 +206,36 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
 
         @Override
         public void onRecyclerViewItemClick(View v, int position) {
-            if (position == 0){
+            if (position == 0) {
                 showCameraAction();
-            }else{
-                if (v.getId() == R.id.iv_photo_checked) {
-                    boolean photoSelected = PhotoMessage.togglePhotoSelected(photoFolder.get(position));
-                    if (photoSelected) {
-                        changeOKButtonStatus();
-                    } else {
-                        String string = getString(R.string.photo_sum_max);
-                        String format = String.format(string, MAX_PHOTO_SUM);
-                        Toast.makeText(PhotoSelectorActivity.this, format, Toast.LENGTH_SHORT).show();
-                    }
-                    photoListAdapter.notifyDataSetChanged();
-                } else {
-                    Intent intent = new Intent(PhotoSelectorActivity.this, PhotoViewActivity.class);
-                    photoList = new ArrayList<>();
-                    photoList.addAll(photoFolder);
-                    intent.putExtra("PhotoList", photoList);
-                    intent.putExtra("Index", position);
-                    startActivityForResult(intent, REQUEST_PREVIEW_PHOTO);
-                }
-            }
+            } else {
+//                if (v.getId() == R.id.iv_photo_checked) {
+//                    boolean photoSelected = PhotoMessage.togglePhotoSelected(photoFolder.get(position));
+//                    if (photoSelected) {
+////                        changeOKButtonStatus();
+//                    } else {
+//                        String string = getString(R.string.photo_sum_max);
+//                        String format = String.format(string, MAX_PHOTO_SUM);
+//                        Toast.makeText(PhotoSelectorActivity.this, format, Toast.LENGTH_SHORT).show();
+//                    }
+//                    photoListAdapter.notifyDataSetChanged();
+//                } else {
+//                    Intent intent = new Intent(PhotoSelectorActivity.this, PhotoViewActivity.class);
+//                    photoList = new ArrayList<>();
+//                    photoList.addAll(photoFolder);
+//                    intent.putExtra("PhotoList", photoList);
+//                    intent.putExtra("Index", position);
+//                    startActivityForResult(intent, REQUEST_PREVIEW_PHOTO);
 
+//                ArrayList<String> image = new ArrayList<>();
+//                image.add(tmpFile.getAbsolutePath());
+
+                photoList.add(photoFolder.get(position));
+                Intent intent = new Intent();
+                intent.putExtra(LAST_MODIFIED_LIST, photoList);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
         }
     }
 
@@ -288,7 +255,7 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
 
     public static File createTmpFile(Context context) {
         String state = Environment.getExternalStorageState();
-        if(state.equals(Environment.MEDIA_MOUNTED)){
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
             // 已挂载
             File pic = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/Camera/");
 
@@ -296,7 +263,7 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
             String fileName = timeStamp + "";
             tmpFile = new File(pic, fileName + ".jpg");
             return tmpFile;
-        }else{
+        } else {
             File cacheDir = context.getCacheDir();
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
             String fileName = "multi_image_" + timeStamp + "";
@@ -321,7 +288,7 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
                     finish();
                 }
                 photoListAdapter.notifyDataSetChanged();
-                changeOKButtonStatus();
+//                changeOKButtonStatus();
                 break;
         }
 
@@ -333,7 +300,6 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
                     image.add(tmpFile.getAbsolutePath());
                     Intent intent = new Intent();
                     intent.putExtra(LAST_MODIFIED_LIST, image);
-                    intent.putExtra(SELECTED_FULL_IMAGE, PhotoSelectorSetting.IS_SELECTED_FULL_IMAGE);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -359,12 +325,12 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
         if (rvFolderList.isShown()) {
             rvFolderList.setVisibility(View.GONE);
             vAlpha.setVisibility(View.INVISIBLE);
-            ivAlbumArrow.setImageResource(R.mipmap.ic_arrow_down_yellow);
+            ivAlbumArrow.setImageResource(R.mipmap.ic_arrow_down);
             animation = AnimationUtils.loadAnimation(this, R.anim.popup_hidden_anim);
         } else {
             rvFolderList.setVisibility(View.VISIBLE);
             vAlpha.setVisibility(View.VISIBLE);
-            ivAlbumArrow.setImageResource(R.mipmap.ic_arrow_up_yellow);
+            ivAlbumArrow.setImageResource(R.mipmap.ic_arrow_up);
             animation = AnimationUtils.loadAnimation(this, R.anim.popup_show_anim);
         }
         rvFolderList.setAnimation(animation);
@@ -376,40 +342,5 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
             photoFolder.setSelected(false);
         }
         photoFolders.get(position).setSelected(true);
-    }
-
-    private void changeOKButtonStatus() {
-        if (SELECTED_PHOTOS.size() == 0) {
-            btSelectOK.setBackgroundResource(R.drawable.button_unclickable);
-            btSelectOK.setTextColor(getResources().getColor(R.color.textSecondColor));
-            btSelectOK.setText(getString(R.string.ok));
-            btPreviewImage.setTextColor(getResources().getColor(R.color.textSecondColor));
-        } else {
-            btSelectOK.setBackgroundResource(R.drawable.button_clickable);
-            btSelectOK.setTextColor(getResources().getColor(R.color.textWriteColor));
-            String string = getResources().getString(R.string.ok_with_number);
-            String format = String.format(string, SELECTED_PHOTOS.size());
-            btSelectOK.setText(format);
-            btPreviewImage.setTextColor(getResources().getColor(R.color.textBlackColor));
-        }
-        if (PhotoSelectorSetting.IS_SELECTED_FULL_IMAGE) {
-            long size = 0;
-            for (String selectedPhoto : SELECTED_PHOTOS) {
-                size += new File(selectedPhoto).length();
-            }
-            float f = (float) size / (1024 * 1024);
-            Log.i(TAG, "changeOKButtonStatus: " + f);
-            String string = getString(R.string.full_image_with_size);
-            String format = String.format(string, GetFileSize.getSize(size));
-            btSelectFullImage.setText(format);
-            Drawable drawable = getResources().getDrawable(R.mipmap.choose_full_image_checked);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            btSelectFullImage.setCompoundDrawables(drawable, null, null, null);
-        } else {
-            btSelectFullImage.setText(getString(R.string.full_image));
-            Drawable drawable = getResources().getDrawable(R.mipmap.choose_full_image_unchecked);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            btSelectFullImage.setCompoundDrawables(drawable, null, null, null);
-        }
     }
 }
