@@ -12,7 +12,6 @@ import com.shuhuasoft.R;
 import java.util.ArrayList;
 
 import cn.picker.activity.PhotoSelectorActivity;
-import cn.picker.models.PhotoSelectorSetting;
 
 
 /**
@@ -46,11 +45,10 @@ public class MineInfoActivity extends MecTitleActivity implements OnClickListene
         switch (v.getId()) {
             case R.id.llAvatar:
                 // 最大可选照片数
-                PhotoSelectorSetting.MAX_PHOTO_SUM = 1;
+//                PhotoSelectorSetting.MAX_PHOTO_SUM = 1;
                 // 照片列表列数
-                PhotoSelectorSetting.COLUMN_COUNT = 4;
+//                PhotoSelectorSetting.COLUMN_COUNT = 4;
                 Intent intent = new Intent(MineInfoActivity.this, PhotoSelectorActivity.class);
-                intent.putExtra(PhotoSelectorSetting.LAST_MODIFIED_LIST, result);
                 startActivityForResult(intent, 0x01);
                 break;
         }
@@ -63,7 +61,7 @@ public class MineInfoActivity extends MecTitleActivity implements OnClickListene
             case 0x01:
                 if (resultCode == RESULT_OK) {
                     // result为照片绝对路径集合,isSelectedFullImage标识是否选择原图
-                    result = data.getStringArrayListExtra(PhotoSelectorSetting.LAST_MODIFIED_LIST);
+                    result = data.getStringArrayListExtra(PhotoSelectorActivity.LAST_MODIFIED_LIST);
                     // 获取照片后的操作
                     ivAvatar.setImageBitmap(BitmapFactory.decodeFile(result.get(0)));
                 }

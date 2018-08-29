@@ -36,12 +36,7 @@ import cn.picker.R;
 import cn.picker.adapter.FolderListAdapter;
 import cn.picker.adapter.PhotoListAdapter;
 import cn.picker.bean.ImageFolderBean;
-import cn.picker.models.PhotoSelectorSetting;
 import cn.picker.utils.ScreenUtil;
-
-import static cn.picker.models.PhotoMessage.SELECTED_PHOTOS;
-import static cn.picker.models.PhotoSelectorSetting.COLUMN_COUNT;
-import static cn.picker.models.PhotoSelectorSetting.LAST_MODIFIED_LIST;
 
 /**
  * Created by Fire on 2017/4/8.
@@ -49,6 +44,7 @@ import static cn.picker.models.PhotoSelectorSetting.LAST_MODIFIED_LIST;
 
 public class PhotoSelectorActivity extends AppCompatActivity implements OnClickListener {
     private static final String TAG = "PhotoSelectorActivity";
+    public static final String LAST_MODIFIED_LIST = "last_modified_list";
     private static final int REQUEST_PREVIEW_PHOTO = 100;
     /**
      * 保存相册目录名和相册所有照片路径
@@ -76,6 +72,7 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
     private List<String> photoFolder;
     private ArrayList<String> photoList = new ArrayList<>();
     private RecyclerView rvPhotoList;
+    public static int COLUMN_COUNT = 4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,8 +89,6 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
         tvAlbumName.setOnClickListener(this);
         ivAlbumArrow.setOnClickListener(this);
         vAlpha.setOnClickListener(this);
-        Intent intent = getIntent();
-        SELECTED_PHOTOS = intent.getStringArrayListExtra(LAST_MODIFIED_LIST);
         photoListAdapter = new PhotoListAdapter(this, photoGroupMap.get("全部照片"));
         if (COLUMN_COUNT <= 1) {
             rvPhotoList.setLayoutManager(new LinearLayoutManager(this));
@@ -180,13 +175,13 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
         }
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            PhotoSelectorSetting.SCREEN_RATIO = (float) vAlpha.getWidth() / vAlpha.getHeight();
-        }
-    }
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (hasFocus) {
+//            PhotoSelectorSetting.SCREEN_RATIO = (float) vAlpha.getWidth() / vAlpha.getHeight();
+//        }
+//    }
 
     private class OnFolderListClick implements FolderListAdapter.OnRecyclerViewItemClickListener {
 
@@ -281,7 +276,7 @@ public class PhotoSelectorActivity extends AppCompatActivity implements OnClickL
             case REQUEST_PREVIEW_PHOTO:
                 if (resultCode == RESULT_OK) {
                     photoList = new ArrayList<>();
-                    photoList.addAll(SELECTED_PHOTOS);
+//                    photoList.addAll(SELECTED_PHOTOS);
                     Intent intent = new Intent();
                     intent.putExtra(LAST_MODIFIED_LIST, photoList);
                     setResult(RESULT_OK, intent);
