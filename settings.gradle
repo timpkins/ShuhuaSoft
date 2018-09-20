@@ -1,1 +1,1 @@
-include ':Mec', ':Base', ':ImagePicker'
+include ':Mec', ':Base', ':ImagePicker', ':Bridge'

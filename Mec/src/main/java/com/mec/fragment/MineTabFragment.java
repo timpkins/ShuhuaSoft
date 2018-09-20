@@ -18,13 +18,14 @@ import com.mec.activity.UserLoginActivity;
 import com.shuhuasoft.R;
 
 import cn.base.fragment.BaseTabFragment;
+import cn.base.util.LogUtils;
 
 /**
  * 我的
  * @author timpkins
  */
 public class MineTabFragment extends BaseTabFragment implements OnClickListener {
-    private TextView tvBalance;
+    private TextView tvBalance, tvName;
 
     public static MineTabFragment newInstance(String webUrl) {
         Bundle args = new Bundle();
@@ -48,7 +49,7 @@ public class MineTabFragment extends BaseTabFragment implements OnClickListener 
         TextView tvPersion = view.findViewById(R.id.tvPersion);
         TextView tvSafe = view.findViewById(R.id.tvSafe);
         TextView tvSettings = view.findViewById(R.id.tvSettings);
-        TextView tvName = view.findViewById(R.id.tvUserName);
+        tvName = view.findViewById(R.id.tvUserName);
         tvBalance = view.findViewById(R.id.tvUserBalance);
 
         tvOrder.setOnClickListener(this);
@@ -58,6 +59,11 @@ public class MineTabFragment extends BaseTabFragment implements OnClickListener 
         tvSettings.setOnClickListener(this);
         tvName.setOnClickListener(this);
         tvBalance.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -78,11 +84,24 @@ public class MineTabFragment extends BaseTabFragment implements OnClickListener 
                     activity.startActivity(new Intent(getActivity(), MineSafeActivity.class));
                     break;
                 case R.id.tvSettings: // 设置
-                    activity.startActivity(new Intent(getActivity(), MineSettingsActivity.class));
+                    activity.startActivityForResult(new Intent(getActivity(), MineSettingsActivity.class), 0x02);
                     break;
                 case R.id.tvUserName:
-                    activity.startActivity(new Intent(getActivity(), UserLoginActivity.class));
+                    activity.startActivityForResult(new Intent(getActivity(), UserLoginActivity.class), 0x01);
                     break;
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.e("TAG", "requestCode = " + requestCode);
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == 0x01){
+                tvName.setText("用户已登录");
+            }else if (requestCode == 0x02){
+                tvName.setText(R.string.mine_login);
             }
         }
 

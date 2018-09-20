@@ -43,9 +43,16 @@ public class WebTabFragment extends BaseTabFragment {
         initWebView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.web_statusbar));
+    }
+
     private void initWebView() {
         wvShop = getView().findViewById(R.id.wvContent);
         WebSettings settings = wvShop.getSettings();
+        settings.setSupportZoom(false);
         settings.setJavaScriptEnabled(true);
         wvShop.setWebViewClient(new WebViewClient() {
 

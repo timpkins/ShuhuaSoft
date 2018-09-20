@@ -6,11 +6,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
+import com.mec.Constants.NetUrl;
+import com.mec.Constants.Preference;
+import com.mec.NetHttpCallback;
 import com.mec.view.CircularImageView;
 import com.shuhuasoft.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import cn.base.util.LogUtils;
+import cn.bridge.NetParams;
+import cn.bridge.NetRequester;
+import cn.bridge.RequestOption;
 import cn.picker.activity.PhotoSelectorActivity;
 
 
@@ -64,8 +72,24 @@ public class MineInfoActivity extends MecTitleActivity implements OnClickListene
                     result = data.getStringArrayListExtra(PhotoSelectorActivity.LAST_MODIFIED_LIST);
                     // 获取照片后的操作
                     ivAvatar.setImageBitmap(BitmapFactory.decodeFile(result.get(0)));
+
+                    uploadAvatar(result.get(0));
                 }
                 break;
         }
+    }
+
+    private void uploadAvatar(String path){
+        NetParams params = new NetParams();
+        params.put("token", application().getPreferencesHelper().getData(Preference.TOKE, ""));
+        params.put("file", new File(path));
+        RequestOption option = new RequestOption();
+        option.setMediaType(RequestOption.MEDIA_FORM);
+        new NetRequester(this, option).post(NetUrl.AVATAR, params, new NetHttpCallback() {
+            @Override
+            public void onSuccess(String result) {
+                LogUtils.e("TAG", result);
+            }
+        });
     }
 }

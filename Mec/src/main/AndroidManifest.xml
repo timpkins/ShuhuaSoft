@@ -23,7 +23,7 @@
         <activity android:name="com.mec.activity.MineSettingsActivity" />
         <activity android:name="com.mec.activity.MineSafeActivity" />
         <activity android:name="com.mec.activity.UserLoginActivity" />
-        <activity android:name="com.mec.activity.UserRegitActivity" />
+        <activity android:name="com.mec.activity.UserRegistActivity" />
     </application>
 
 </manifest>

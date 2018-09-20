@@ -17,8 +17,9 @@ public class BaseApplication extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler());
     }
 
-    public static BaseApplication getInstance() {
-        return instance;
+    public static <T extends BaseApplication> T getInstance() {
+        //noinspection unchecked
+        return (T)instance;
     }
 
     @Override

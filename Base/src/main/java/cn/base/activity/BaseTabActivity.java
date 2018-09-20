@@ -96,7 +96,7 @@ public abstract class BaseTabActivity extends AppCompatActivity implements OnTab
     //========配置BottomNavigationBar=========
 
     public void refresh() {
-        bottomNavigationBar.clearAll();
+//        bottomNavigationBar.clearAll();
         bottomNavigationBar.setMode(bottomMode);
         bottomNavigationBar.setBackgroundStyle(bottomBackgroundStyle);
         bottomNavigationBar.toggle(hideBottom);
@@ -109,6 +109,7 @@ public abstract class BaseTabActivity extends AppCompatActivity implements OnTab
             bottomNavigationBar.setItemZoom(isItemZoom);
             bottomNavigationBar.initialise();
         }
+        bottomNavigationBar.show();
         initFragment();
         switchFragment(0);
     }

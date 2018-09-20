@@ -6,6 +6,8 @@
     android:background="@color/web_statusbar">
 
     <WebView
+        android:fitsSystemWindows="true"
+        android:clipToPadding="true"
         android:id="@+id/wvContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

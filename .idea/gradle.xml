@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Base" />
+            <option value="$PROJECT_DIR$/Bridge" />
             <option value="$PROJECT_DIR$/ImagePicker" />
             <option value="$PROJECT_DIR$/Mec" />
           </set>

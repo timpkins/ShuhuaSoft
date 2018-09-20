@@ -259,4 +259,23 @@ public class BottomNavigationItem {
         return mBadgeItem;
     }
 
+    @Override
+    public String toString() {
+        return "BottomNavigationItem{" +
+                "mIconResource=" + mIconResource +
+                ", mIcon=" + mIcon +
+                ", mInactiveIconResource=" + mInactiveIconResource +
+                ", mInactiveIcon=" + mInactiveIcon +
+                ", inActiveIconAvailable=" + inActiveIconAvailable +
+                ", mTitleResource=" + mTitleResource +
+                ", mTitle='" + mTitle + '\'' +
+                ", mActiveColorResource=" + mActiveColorResource +
+                ", mActiveColorCode='" + mActiveColorCode + '\'' +
+                ", mActiveColor=" + mActiveColor +
+                ", mInActiveColorResource=" + mInActiveColorResource +
+                ", mInActiveColorCode='" + mInActiveColorCode + '\'' +
+                ", mInActiveColor=" + mInActiveColor +
+                ", mBadgeItem=" + mBadgeItem +
+                '}';
+    }
 }

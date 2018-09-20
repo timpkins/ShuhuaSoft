@@ -3,10 +3,6 @@
 
     <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:fitsSystemWindows">false</item>
-        <item name="android:navigationBarColor">#333333</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="BadgeText" parent="TextAppearance.AppCompat.Body2">

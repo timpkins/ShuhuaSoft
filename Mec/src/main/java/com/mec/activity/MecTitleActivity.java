@@ -3,6 +3,7 @@ package com.mec.activity;
 import android.support.annotation.StringRes;
 import android.widget.TextView;
 
+import com.mec.MecApplication;
 import com.shuhuasoft.R;
 
 import cn.base.activity.BaseTitleActivity;
@@ -24,5 +25,9 @@ public abstract class MecTitleActivity extends BaseTitleActivity {
     protected void setTitleContent(@StringRes int leftRes){
         tvLeft.setOnClickListener(view -> finish());
         tvName.setText(leftRes);
+    }
+
+    public MecApplication application(){
+        return MecApplication.getInstance();
     }
 }

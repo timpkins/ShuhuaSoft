@@ -27,4 +27,7 @@
 
     <string name="picker_all">全部照片</string>
 
+    <string name="user_obtainCode">获取验证码</string>
+    <string name="user_obtainCode_hint">%2ds后重新获取</string>
+
 </resources>
